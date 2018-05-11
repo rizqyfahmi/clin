@@ -1,0 +1,21 @@
+# Checks to see if the user is attempting to access a valid file,
+# such as an image or css document, if this isn’t true it sends the
+# request to index.php
+#php_flag display_errors on
+<FilesMatch "\.(ttf|otf|eot|woff)$">
+   <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+   </IfModule>
+</FilesMatch>
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f  
+RewriteCond %{REQUEST_FILENAME} !-d  
+RewriteRule ^(.*)$ index.php?/$1 [L]
+
+php_value upload_max_filesize 150M
+php_value post_max_size 150M
+
+#RewriteEngine on
+#RewriteCond $1 !^(index\.php|images|robots\.txt)
+#RewriteRule ^(.*)$ /index.php/$1 [L]
